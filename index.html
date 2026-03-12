@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avril Key</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:    #f0eef8;
+    --blush:    #dcd6f7;
+    --rose:     #b8aee8;
+    --wine:     #3d2b7a;
+    --plum:     #221660;
+    --gold:     #7b6db5;
+    --gold-lt:  #c4bef0;
+    --lavender: #a99fd4;
+    --ink:      #0e0b24;
+    --mist:     #4a4080;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--wine); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--rose); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all 0.18s ease;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(240,238,248,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(184,174,232,0.3);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic;
+    color: var(--wine); letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--mist);
+    text-decoration: none; transition: color 0.25s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1px; background: var(--gold); transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--wine); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* SECTION COMMONS */
+  section { position: relative; padding: 100px 60px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: '✦'; font-size: 8px; color: var(--rose); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4.5vw, 64px); font-weight: 300;
+    line-height: 1.05; letter-spacing: -0.01em;
+    color: var(--plum); margin-bottom: 56px;
+  }
+  .section-title em { font-style: italic; color: var(--wine); font-weight: 600; }
+
+  /* ── HERO (light) ── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: grid; grid-template-columns: 1fr;
+    align-items: center; padding: 140px 60px 80px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #f0eef8 0%, #e8e4f5 100%);
+  }
+
+  .hero-watermark {
+    position: absolute; right: 40px; top: 50%; transform: translateY(-52%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 380px; font-weight: 700;
+    color: rgba(61,43,122,0.04); line-height: 1;
+    user-select: none; pointer-events: none;
+  }
+
+  .hero-botanical {
+    position: absolute; top: 70px; left: -10px;
+    width: 230px; opacity: 0.18; pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 14px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(68px, 8vw, 110px); font-weight: 300;
+    line-height: 0.92; letter-spacing: -0.02em;
+    margin-bottom: 28px; color: var(--plum);
+    display: flex; align-items: baseline; gap: 18px;
+  }
+  .hero-name strong { font-weight: 700; font-style: italic; color: var(--wine); }
+
+  .hero-summary {
+    font-size: 16px; line-height: 1.8; color: var(--mist);
+    max-width: 580px; margin-bottom: 44px; font-weight: 300;
+  }
+
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+  .tag {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 7px 16px;
+    border: 1px solid var(--rose); color: var(--wine);
+    border-radius: 40px; background: rgba(184,174,232,0.15);
+  }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 14px 28px;
+    background: var(--wine); color: var(--cream);
+    text-decoration: none; border-radius: 40px;
+    transition: all 0.3s; box-shadow: 0 8px 24px rgba(61,43,122,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--plum);
+    box-shadow: 0 12px 32px rgba(61,43,122,0.35);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 14px 28px;
+    background: transparent; color: var(--wine);
+    text-decoration: none; border-radius: 40px;
+    border: 1px solid var(--rose); transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--wine); background: rgba(61,43,122,0.05); }
+
+  /* ── TIMELINE (dark) ── */
+  .timeline-section {
+    background: var(--plum);
+  }
+  .timeline-section .section-label { color: var(--gold-lt); }
+  .timeline-section .section-label::before { color: rgba(184,174,232,0.5); }
+  .timeline-section .section-title { color: var(--cream); }
+  .timeline-section .section-title em { color: var(--rose); }
+
+  .timeline { position: relative; max-width: 860px; margin: 0 auto; }
+
+  .timeline::before {
+    content: '';
+    position: absolute; left: 160px; top: 24px; bottom: 24px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--rose) 8%, var(--rose) 92%, transparent);
+  }
+
+  .timeline-item {
+    display: grid; grid-template-columns: 160px 1fr;
+    margin-bottom: 40px;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .timeline-item:nth-child(1) { animation-delay: 0.05s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.18s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.31s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.44s; }
+  .timeline-item:nth-child(5) { animation-delay: 0.57s; }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .timeline-date { padding-right: 32px; padding-top: 2px; text-align: right; }
+
+  .timeline-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px; font-weight: 600; font-style: italic;
+    color: var(--rose); display: block; line-height: 1;
+  }
+  .timeline-period {
+    font-size: 10px; letter-spacing: 0.08em;
+    color: var(--lavender); display: block; margin-top: 4px;
+  }
+
+  .timeline-body { position: relative; padding-left: 32px; padding-bottom: 8px; }
+
+  .timeline-body::before {
+    content: '◆'; position: absolute; left: -7px; top: 4px;
+    font-size: 10px; color: var(--rose); line-height: 1;
+  }
+
+  .timeline-item.current .timeline-body::before {
+    color: var(--gold-lt);
+    animation: sparkle 1.8s ease-in-out infinite;
+  }
+
+  @keyframes sparkle {
+    0%,100% { text-shadow: 0 0 4px var(--gold-lt); }
+    50% { text-shadow: 0 0 12px var(--rose), 0 0 20px rgba(184,174,232,0.5); }
+  }
+
+  .timeline-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(184,174,232,0.2);
+    border-radius: 16px; padding: 20px 24px;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  }
+  .timeline-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.13);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.2);
+  }
+
+  .timeline-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; color: var(--cream); margin-bottom: 3px;
+  }
+  .timeline-org {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    color: var(--gold-lt); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .timeline-featured {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--cream); background: rgba(255,255,255,0.1);
+    padding: 5px 12px; border-radius: 20px;
+  }
+  .timeline-featured::before { content: '✦'; font-size: 8px; color: var(--rose); }
+
+  /* ── PROJECTS (light) ── */
+  .projects-section { background: var(--cream); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    background: white; border-radius: 20px; overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border: 1px solid rgba(184,174,232,0.25);
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(61,43,122,0.13); }
+
+  .project-img-placeholder {
+    height: 260px; position: relative; overflow: hidden;
+    background: #e8e4f5;
+  }
+  .project-img-placeholder img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top; display: block;
+  }
+  .project-img-placeholder::before { display: none; }
+
+  .project-img-icon {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    color: rgba(61,43,122,0.4); text-transform: uppercase;
+    text-align: center; position: relative; z-index: 1;
+  }
+  .upload-hint { display: block; }
+
+  .project-content { padding: 24px; }
+
+  .project-type {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+  }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; line-height: 1.2;
+    color: var(--plum); margin-bottom: 10px;
+  }
+  .project-desc { font-size: 13px; line-height: 1.75; color: var(--mist); margin-bottom: 16px; }
+
+  .project-tools { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+  .tool-chip {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+    padding: 4px 12px; background: rgba(184,174,232,0.2); color: var(--wine);
+    border-radius: 20px; text-transform: uppercase; border: 1px solid rgba(184,174,232,0.4);
+  }
+
+  .project-link {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--wine); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px; transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 13px; }
+  .project-link::after { content: '→'; color: var(--gold); }
+  .confidential-badge { font-size: 10px; color: var(--mist); font-style: italic; }
+
+  /* ── SKILLS (dark) ── */
+  .skills-section { background: var(--wine); }
+  .skills-section .section-title { color: var(--cream); }
+  .skills-section .section-title em { color: var(--rose); }
+  .skills-section .section-label { color: var(--gold-lt); }
+  .skills-section .section-label::before { color: rgba(184,174,232,0.5); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+
+  .skill-group {
+    background: rgba(255,255,255,0.08); border-radius: 20px; padding: 28px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .skill-group:hover { transform: translateY(-3px); background: rgba(255,255,255,0.13); }
+
+  .skill-group-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold-lt); margin-bottom: 18px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .skill-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-list li {
+    font-size: 13px; color: var(--cream);
+    background: rgba(255,255,255,0.08); padding: 5px 12px;
+    border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s;
+  }
+  .skill-list li:hover { background: rgba(255,255,255,0.18); }
+
+  /* ── EDUCATION (light) ── */
+  #education { background: var(--cream); }
+
+  .cert-item {
+    padding: 16px 20px; background: white;
+    border-radius: 12px; margin-bottom: 10px;
+    border-left: 3px solid var(--rose); transition: border-color 0.2s;
+  }
+  .cert-item:hover { border-left-color: var(--wine); }
+  .cert-name { font-size: 14px; font-weight: 400; color: var(--plum); margin-bottom: 2px; }
+  .cert-org { font-size: 11px; color: var(--mist); letter-spacing: 0.05em; }
+  .cert-status { font-size: 10px; color: var(--gold); font-style: italic; margin-top: 4px; }
+
+  /* ── CONTACT (dark) ── */
+  .contact-section { background: var(--plum); }
+  .contact-section .section-label { color: var(--gold-lt); }
+  .contact-section .section-label::before { color: rgba(184,174,232,0.5); }
+  .contact-section .section-title { color: var(--cream); }
+  .contact-section .section-title em { color: var(--rose); }
+
+  .contact-info-grid {
+    display: flex; flex-direction: row;
+    flex-wrap: wrap; gap: 32px; margin-top: 12px;
+    align-items: center;
+  }
+  .contact-info-item { display: flex; align-items: center; gap: 14px; }
+  .contact-icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--rose);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--cream); flex-shrink: 0;
+  }
+  .contact-info-item a,
+  .contact-info-item span:last-child {
+    font-size: 15px; font-weight: 300; color: var(--cream);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .contact-info-item a:hover { color: var(--rose); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid rgba(184,174,232,0.2);
+    display: flex; justify-content: space-between; align-items: center;
+    background: #150e3d;
+  }
+  footer p { font-size: 11px; font-weight: 300; color: var(--lavender); letter-spacing: 0.08em; }
+  .footer-sig { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--rose); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes heartbeat {
+    0%,100% { box-shadow: 0 0 0 4px rgba(76,175,125,0.2); }
+    50% { box-shadow: 0 0 0 8px rgba(76,175,125,0.1); }
+  }
+
+  /* CAROUSEL */
+  .carousel { position: relative; overflow: hidden; }
+  .carousel img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  .carousel img.active { opacity: 1; }
+  .carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(240,238,248,0.9); border: none;
+    color: var(--wine); font-size: 20px;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; z-index: 2; transition: background 0.2s;
+  }
+  .carousel-btn:hover { background: white; }
+  .carousel-btn.prev { left: 10px; }
+  .carousel-btn.next { right: 10px; }
+  .carousel-dots {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px; z-index: 2;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(61,43,122,0.3); cursor: pointer; transition: background 0.2s;
+  }
+  .dot.active { background: var(--wine); }
+
+  @media (max-width: 860px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .timeline::before { left: 0; }
+    .timeline-item { grid-template-columns: 1fr; }
+    .timeline-date { text-align: left; padding: 0 0 8px 18px; }
+    .timeline-body { padding-left: 18px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Avril Key Portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#hero">About</a></li>
+    <li><a href="#timeline">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO (light) -->
+<section class="hero" id="hero">
+
+  <svg class="hero-botanical" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M120 280 Q120 180 120 100" stroke="#b8aee8" stroke-width="1.2"/>
+    <ellipse cx="95" cy="175" rx="28" ry="14" stroke="#b8aee8" stroke-width="0.8" transform="rotate(-35 95 175)"/>
+    <ellipse cx="148" cy="155" rx="28" ry="14" stroke="#b8aee8" stroke-width="0.8" transform="rotate(35 148 155)"/>
+    <ellipse cx="88" cy="130" rx="22" ry="11" stroke="#7b6db5" stroke-width="0.6" transform="rotate(-50 88 130)"/>
+    <ellipse cx="152" cy="118" rx="22" ry="11" stroke="#7b6db5" stroke-width="0.6" transform="rotate(50 152 118)"/>
+    <circle cx="120" cy="100" r="16" stroke="#b8aee8" stroke-width="0.9"/>
+    <circle cx="120" cy="100" r="8" stroke="#7b6db5" stroke-width="0.6"/>
+    <circle cx="60" cy="90" r="10" stroke="#a99fd4" stroke-width="0.6"/>
+    <circle cx="175" cy="75" r="8" stroke="#a99fd4" stroke-width="0.5"/>
+    <path d="M60 90 Q90 85 120 100" stroke="#a99fd4" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <path d="M175 75 Q150 82 120 100" stroke="#a99fd4" stroke-width="0.5" stroke-dasharray="3 3"/>
+  </svg>
+
+  <div class="hero-watermark">A.K</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">NYC</div>
+    <h1 class="hero-name">Avril <strong>Key</strong></h1>
+    <p class="hero-summary">
+      A creative technologist and results-driven data professional with expertise in data analytics, geospatial analysis, and project management across civic tech, healthcare, and media. Known for translating technical findings into clear insights for cross-functional stakeholders and for leading with precision in environments where data quality directly shapes strategy.
+    </p>
+    <div class="hero-ctas">
+      <a href="Avril_Key_Resume.pdf" target="_blank" class="btn-primary">Resume</a>
+      <a href="https://linkedin.com/in/avrilkey" target="_blank" class="btn-primary">LinkedIn ↗</a>
+      <a href="https://github.com/avrilkey/" target="_blank" class="btn-primary">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE (dark) -->
+<section class="timeline-section" id="timeline">
+  <div class="section-label">Career Journey</div>
+  <h2 class="section-title">Professional <em>Experience</em></h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item current">
+      <div class="timeline-date">
+        <span class="timeline-year">2026</span>
+        <span class="timeline-period">Feb – Present</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-card">
+          <div class="timeline-role">Data Analyst Fellow</div>
+          <div class="timeline-org">NYC Office of Technology &amp; Innovation · Brooklyn, NY</div>
+          <span class="timeline-featured">Project: LinkNYC Community Impact Assessment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <span class="timeline-year">2024</span>
+        <span class="timeline-period">Dec '24 – Jan '26</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-card">
+          <div class="timeline-role">Digital Access Analyst Fellow</div>
+          <div class="timeline-org">NYC Office of Technology &amp; Innovation · Brooklyn, NY</div>
+          <span class="timeline-featured">Projects: Big Apple Connect Survey · Disconnected by Design · Is True Digital Equity Being Provided?</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <span class="timeline-year">2024</span>
+        <span class="timeline-period">Jan – Nov</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-card">
+          <div class="timeline-role">Digital Equity Policy Analyst Fellow</div>
+          <div class="timeline-org">NYC Office of Technology &amp; Innovation · Brooklyn, NY</div>
+          <span class="timeline-featured">Project: Citywide Public Computer Center Survey</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <span class="timeline-year">2020</span>
+        <span class="timeline-period">Jan – May '20</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-card">
+          <div class="timeline-role">Technology Intern</div>
+          <div class="timeline-org">Shutterstock · New York, NY</div>
+          <span class="timeline-featured">Project: Customer Experience &amp; Platform Usability Study</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">
+        <span class="timeline-year">2019</span>
+        <span class="timeline-period">Apr '16 – Aug '19</span>
+      </div>
+      <div class="timeline-body">
+        <div class="timeline-card">
+          <div class="timeline-role">Patient Insurance Coordinator</div>
+          <div class="timeline-org">NY Med · Queens, NY</div>
+          <span class="timeline-featured">Project: Patient Insurance Operations &amp; Workflow Optimization</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS (light) -->
+<section class="projects-section" id="projects">
+  <div class="section-label">Selected Work</div>
+  <h2 class="section-title">Featured <em>Projects</em></h2>
+
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-img-placeholder">
+        <img src="images/LinkNYC_Assessment.jpeg" alt="LinkNYC Community Impact Assessment">
+      </div>
+      <div class="project-content">
+        <div class="project-type">GIS · Digital Equity Research</div>
+        <h3 class="project-title">LinkNYC Community Impact Assessment</h3>
+        <p class="project-desc">Spatial analysis identifying every Link kiosk within a 500-foot buffer of NYC residents — quantifying resident proximity to public internet access.</p>
+        <div class="project-tools">
+          <span class="tool-chip">ArcGIS Pro</span>
+          <span class="tool-chip">Living Atlas</span>
+          <span class="tool-chip">Open Data</span>
+        </div>
+        <span class="confidential-badge">Confidential — Internal Project</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img-placeholder carousel" id="bacCarousel">
+        <img src="images/BAC_Survey.png" alt="BAC Survey Screenshot 1">
+        <button class="carousel-btn prev" onclick="moveSlide('bacCarousel', -1)">‹</button>
+        <button class="carousel-btn next" onclick="moveSlide('bacCarousel', 1)">›</button>
+        <div class="carousel-dots" id="bacCarousel-dots"></div>
+      </div>
+      <div class="project-content">
+        <div class="project-type">Project Management · Data Analysis</div>
+        <h3 class="project-title">Big Apple Connect NYCHA Resident Survey</h3>
+        <p class="project-desc">Designed and deployed a satisfaction &amp; enrollment awareness survey for NYCHA residents. Cleaned and visualized response data in a Power BI dashboard for executive stakeholders.</p>
+        <div class="project-tools">
+          <span class="tool-chip">Power BI</span>
+          <span class="tool-chip">Google Forms</span>
+          <span class="tool-chip">Excel</span>
+        </div>
+        <span class="confidential-badge">Confidential — Internal Project</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img-placeholder">
+        <img src="images/grandrounds-communications-100223-21x9.jpg" alt="Disconnected by Design">
+      </div>
+      <div class="project-content">
+        <div class="project-type">ArcGIS StoryMap · COVID-19 Impact</div>
+        <h3 class="project-title">Disconnected by Design</h3>
+        <p class="project-desc">This ArcGIS StoryMap examines how environmental and socioeconomic conditions intersected with digital exclusion during COVID-19, mapping which NYC communities were most affected and who was ultimately left behind when the world moved online.</p>
+        <div class="project-tools">
+          <span class="tool-chip">ArcGIS StoryMaps</span>
+          <span class="tool-chip">Living Atlas</span>
+        </div>
+        <a href="https://arcg.is/1KjjLS1" target="_blank" class="project-link">View Live StoryMap</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img-placeholder">
+        <img src="images/digitalequity.jpg" alt="Is True Digital Equity Being Provided">
+      </div>
+      <div class="project-content">
+        <div class="project-type">ArcGIS StoryMap · Equity Research</div>
+        <h3 class="project-title">Is True Digital Equity Being Provided?</h3>
+        <p class="project-desc">A critical spatial examination of the digital divide in underserved NYC communities, mapping how legacy infrastructural inequities translate into present-day broadband deserts.</p>
+        <div class="project-tools">
+          <span class="tool-chip">ArcGIS StoryMaps</span>
+          <span class="tool-chip">Living Atlas</span>
+          <span class="tool-chip">Python</span>
+          <span class="tool-chip">Canva</span>
+        </div>
+        <a href="https://arcg.is/10uWWW3" target="_blank" class="project-link">View Live StoryMap</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-img-placeholder">
+        <img src="images/pcc.png" alt="Citywide Public Computer Center Survey">
+      </div>
+      <div class="project-content">
+        <div class="project-type">Project Management · Data Analysis</div>
+        <h3 class="project-title">Citywide Public Computer Center Survey</h3>
+        <p class="project-desc">Surveyed 400+ public computer centers across NYC, led data cleaning and analysis, and co-designed the initial NYC Public Computer Center website prototype, resulting in a live city resource and published dataset on NYC Open Data.</p>
+        <div class="project-tools">
+          <span class="tool-chip">Microsoft Forms</span>
+          <span class="tool-chip">Excel</span>
+          <span class="tool-chip">NYC Open Data</span>
+        </div>
+        <a href="https://data.cityofnewyork.us/Social-Services/Citywide-Public-Computer-Centers/sejx-2gn3/about_data" target="_blank" class="project-link">View Dataset</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS (dark) -->
+<section class="skills-section" id="skills">
+  <div class="section-label">Technical Toolkit</div>
+  <h2 class="section-title">Skills &amp; <em>Tools</em></h2>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-label">📊 Data Analysis &amp; Viz</div>
+      <ul class="skill-list">
+        <li>Power BI</li><li>Tableau</li><li>Excel</li>
+        <li>SQL</li><li>MySQL</li><li>Python</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">🗺 Geospatial</div>
+      <ul class="skill-list">
+        <li>ArcGIS Pro</li><li>ArcGIS StoryMaps</li>
+        <li>Social Explorer</li><li>OpenStreetMap</li><li>Leaflet</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">⌨️ Development</div>
+      <ul class="skill-list">
+        <li>JavaScript</li><li>HTML / CSS</li>
+        <li>PHP</li><li>Oracle</li><li>Linux</li><li>GitHub</li><li>Claude AI</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-label">📋 Project Management</div>
+      <ul class="skill-list">
+        <li>Airtable</li><li>Microsoft 365</li>
+        <li>SharePoint</li><li>MS Project</li><li>Box</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION (light) -->
+<section id="education">
+  <div class="section-label">Growth &amp; Learning</div>
+  <h2 class="section-title">Education &amp; <em>Certifications</em></h2>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal" style="background:white; border:1px solid rgba(184,174,232,0.2);">
+      <div class="skill-group-label" style="color:var(--wine); border-bottom-color:rgba(184,174,232,0.3);">✦ Degrees</div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="cert-item" style="padding: 36px 20px;">
+          <div class="cert-name">B.S. in Information Science</div>
+          <div class="cert-org">MAJOR: Data Analytics / Technical Track</div>
+          <div class="cert-org">CUNY School of Professional Studies · 2025</div>
+        </div>
+        <div class="cert-item" style="padding: 36px 20px;">
+          <div class="cert-name">A.A.S. in Computer Information Systems</div>
+          <div class="cert-org">MAJOR: Database Systems</div>
+          <div class="cert-org">CUNY NYC College of Technology · 2022</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group reveal" style="background:white; border:1px solid rgba(184,174,232,0.2);">
+      <div class="skill-group-label" style="color:var(--wine); border-bottom-color:rgba(184,174,232,0.3);">✦ Certifications</div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="cert-item">
+          <div class="cert-name">Project Management Professional (PMP)</div>
+          <div class="cert-org">PMI</div>
+          <div class="cert-status">✦ In Progress</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">Data Analytics Professional Certificate</div>
+          <div class="cert-org">Google · 2025</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-name">IT Support Professional Certificate</div>
+          <div class="cert-org">Google · 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT (dark) -->
+<section class="contact-section" id="contact">
+  <div class="section-label">Let's Connect</div>
+  <h2 class="section-title">Get In <em>Touch</em></h2>
+
+  <div class="contact-info-grid">
+    <div class="contact-info-item">
+      <span class="contact-icon">✉</span>
+      <a href="mailto:avril_key@icloud.com">avril_key@icloud.com</a>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">☎</span>
+      <a href="tel:9296220560">(929) 622-0560</a>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">in</span>
+      <a href="https://linkedin.com/in/avrilkey" target="_blank">linkedin.com/in/avrilkey</a>
+    </div>
+    <div class="contact-info-item">
+      <span class="contact-icon">⌖</span>
+      <span>New York City, NY</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Avril Key</p>
+  <span class="footer-sig">with love for the data ✦</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  })();
+  document.querySelectorAll('a, button, .project-card, .skill-group, .timeline-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.width = '56px'; ring.style.height = '56px';
+      ring.style.borderColor = 'var(--wine)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'var(--rose)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) current = s.id; });
+    navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--wine)' : ''; });
+  });
+
+  // Carousel
+  function moveSlide(id, dir) {
+    const carousel = document.getElementById(id);
+    const imgs = carousel.querySelectorAll('img');
+    const dots = document.getElementById(id + '-dots').querySelectorAll('.dot');
+    let current = [...imgs].findIndex(img => img.classList.contains('active'));
+    imgs[current].classList.remove('active');
+    dots[current]?.classList.remove('active');
+    current = (current + dir + imgs.length) % imgs.length;
+    imgs[current].classList.add('active');
+    dots[current]?.classList.add('active');
+  }
+
+  // Init carousels
+  document.querySelectorAll('.carousel').forEach(c => {
+    const imgs = c.querySelectorAll('img');
+    imgs[0]?.classList.add('active');
+    const dotsContainer = c.querySelector('.carousel-dots');
+    if (dotsContainer) {
+      imgs.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => {
+          imgs.forEach(img => img.classList.remove('active'));
+          dotsContainer.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+          imgs[i].classList.add('active');
+          dot.classList.add('active');
+        };
+        dotsContainer.appendChild(dot);
+      });
+    }
+  });
+</script>
+</body>
+</html>
